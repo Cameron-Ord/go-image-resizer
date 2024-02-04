@@ -1,6 +1,10 @@
 
 # Simple Script for Batch Processing JPG Images into Various Sizes
 
+## REQUIREMENTS
+1. **Linux**
+2. **Golang**
+
 ## Setup on linux
 Either git clone it, or download the zip (code -> Download zip)
 ```bash
