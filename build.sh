@@ -5,6 +5,7 @@ rm -f go.sum
 
 echo "Init main.."
 go mod init main
+go get -u github.com/nfnt/resize
 go mod tidy
 
 echo "building.."
