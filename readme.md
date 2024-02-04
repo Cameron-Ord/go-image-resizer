@@ -1,10 +1,12 @@
 
 # Simple Script for Batch Processing JPG Images into Various Sizes
 
-## Setup
+## Setup on linux
 
 ```bash
 git clone https://github.com/Cameron-Ord/go-image-resizer ~/Documents/
+```
+```bash
 unzip jpg_resizer.zip
 ```
 
@@ -18,8 +20,9 @@ unzip jpg_resizer.zip
 2. **Execute the scripts:**
    ```bash
    ./build.sh
+   ```
+   ```bash
    ./run.sh
    ```
 
 The script processes JPG images located in the `/to_process/` folder. The `run.sh` script creates both `processed` and `to_process` directories. Ensure that images are present in `/to_process/` for effective processing.
-```
