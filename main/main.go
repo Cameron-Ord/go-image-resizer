@@ -3,16 +3,13 @@ package main
 import (
 	"fmt"
 	"image"
-	"io/fs"
-	"strconv"
-
 	"image/jpeg"
-
-	"path/filepath"
-	"strings"
-
+	"io/fs"
 	"log"
 	"os"
+	"path/filepath"
+	"strconv"
+	"strings"
 
 	"github.com/nfnt/resize"
 )
@@ -49,51 +46,26 @@ func main() {
 			}
 
 			var bounds image.Rectangle = img.Bounds()
-			var img_sizes Img_Bounds = create_img_struct(bounds)
-			all_resized := create_resized(img, img_sizes)
-
-			for r := 0; r < len(all_resized); r++ {
-				resized := all_resized[r]
+			var reduction_amount int = 2
+			for i := 0; i < 4; i++ {
+				bounds_y := bounds.Dy() / reduction_amount
+				bounds_x := bounds.Dx() / reduction_amount
+				var resized image.Image = create_resized(img, bounds_y, bounds_x)
 				size_str := bounds_to_string(resized.Bounds())
 				err := save_image(resized, output_dir, new_img_name, size_str)
 				if err != nil {
 					log.Fatal(err)
 				}
+				reduction_amount += 2
 			}
 			fmt.Println("--------------------")
 		}
 	}
 }
 
-func create_resized(img image.Image, img_sizes Img_Bounds) []image.Image {
-	tiny := resize.Resize(uint(img_sizes.bounds_x_tiny), uint(img_sizes.bounds_y_tiny), img, resize.Lanczos3)
-	smallest := resize.Resize(uint(img_sizes.bounds_x_smallest), uint(img_sizes.bounds_y_smallest), img, resize.Lanczos3)
-	small := resize.Resize(uint(img_sizes.bounds_x_small), uint(img_sizes.bounds_y_small), img, resize.Lanczos3)
-	medium := resize.Resize(uint(img_sizes.bounds_x_med), uint(img_sizes.bounds_y_med), img, resize.Lanczos3)
-	big := resize.Resize(uint(img_sizes.bounds_x_big), uint(img_sizes.bounds_y_big), img, resize.Lanczos3)
-	maximum := resize.Resize(uint(img_sizes.bounds_x_max), uint(img_sizes.bounds_y_max), img, resize.Lanczos3)
-
-	all_resized := []image.Image{tiny, smallest, small, medium, big, maximum}
-	return all_resized
-}
-
-func create_img_struct(bounds image.Rectangle) Img_Bounds {
-	img_sizes := Img_Bounds{
-		bounds_y_tiny:     bounds.Dy() / 6,
-		bounds_x_tiny:     bounds.Dx() / 6,
-		bounds_y_smallest: bounds.Dy() / 5,
-		bounds_x_smallest: bounds.Dx() / 5,
-		bounds_y_small:    bounds.Dy() / 4,
-		bounds_x_small:    bounds.Dx() / 4,
-		bounds_y_med:      bounds.Dy() / 3,
-		bounds_x_med:      bounds.Dx() / 3,
-		bounds_y_big:      bounds.Dy() / 2,
-		bounds_x_big:      bounds.Dx() / 2,
-		bounds_y_max:      bounds.Dy(),
-		bounds_x_max:      bounds.Dx(),
-	}
-
-	return img_sizes
+func create_resized(img image.Image, x, y int) image.Image {
+	resized := resize.Resize(uint(x), uint(y), img, resize.Lanczos3)
+	return resized
 }
 
 func save_image(img image.Image, output_dir, file_name, size_suffix string) error {
