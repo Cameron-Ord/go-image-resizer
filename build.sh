@@ -1,3 +1,7 @@
+if [ ! -d "to_process" ]; then
+	mkdir to_process
+fi
+
 echo "Removing existing build.."
 rm -f main
 rm -f go.mod
