@@ -2,9 +2,17 @@
 # Simple Script for Batch Processing JPG Images into Various Sizes
 This program processes JPG images located in the `/to_process/` folder. The `run.sh` script creates both `processed` and `to_process` directories just in case, but as long as you run build.sh first you'll pretty much be good to go. Ensure that images are present in `/to_process/` for effective processing.
 
-The output for each JPG file is 5 files each with different sizes(original,/2,/3,/4,/5). The image sizes are in the filenames after processing.
+The output for each JPG file is 6 files each with different sizes
 
-If you don't have go, then go get it :I.
+1. **tiny (original / 6)**
+2. **smallest (original / 5)**
+3. **small (original / 4)**
+4. **medium (original / 3)**
+5. **big (original / 2)**
+6. **maximum (original)**
+
+The image sizes are in the filenames after processing.
+
 
 ## REQUIREMENTS
 1. **Linux**
