@@ -2,10 +2,11 @@
 # Simple Script for Batch Processing JPG Images into Various Sizes
 
 ## Setup on linux
-
+Either git clone it, or download the zip (code -> Download zip)
 ```bash
 git clone https://github.com/Cameron-Ord/go-image-resizer ~/Documents/
 ```
+
 ```bash
 unzip jpg_resizer.zip
 ```
