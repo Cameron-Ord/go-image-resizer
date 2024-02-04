@@ -31,7 +31,7 @@ git clone https://github.com/Cameron-Ord/go-image-resizer && cd go-image-resizer
 ```
 
 ```bash
-unzip jpg_resizer.zip
+unzip go-image-resizer.zip
 ```
 
 ## Running the Script
