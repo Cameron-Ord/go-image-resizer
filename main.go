@@ -70,19 +70,18 @@ func main() {
 			}
 
 			fmt.Println(file.Name(), f, img_sizes)
-
-			resized_image_class := resized_images{
+			RIC := resized_images{
 				small:   resize.Resize(uint(img_sizes.bounds_x_small), uint(img_sizes.bounds_y_small), img, resize.Lanczos3),
 				medium:  resize.Resize(uint(img_sizes.bounds_x_med), uint(img_sizes.bounds_y_med), img, resize.Lanczos3),
 				big:     resize.Resize(uint(img_sizes.bounds_x_big), uint(img_sizes.bounds_y_big), img, resize.Lanczos3),
 				maximum: resize.Resize(uint(img_sizes.bounds_x_max), uint(img_sizes.bounds_y_max), img, resize.Lanczos3),
 			}
 
-			save_image(resized_image_class.small, output_dir, new_img_name, "small")
-			save_image(resized_image_class.medium, output_dir, new_img_name, "medium")
-			save_image(resized_image_class.big, output_dir, new_img_name, "big")
-			save_image(resized_image_class.maximum, output_dir, new_img_name, "maximum")
-
+			all_resized := []image.Image{RIC.small, RIC.medium, RIC.big, RIC.maximum}
+			for r := 0; r < len(all_resized); r++ {
+				resized := all_resized[r]
+				save_image(resized, output_dir, new_img_name, resized.Bounds().String())
+			}
 		}
 	}
 }
