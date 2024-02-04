@@ -9,6 +9,7 @@
 Either git clone it, or download the zip (code -> Download zip)
 ```bash
 git clone https://github.com/Cameron-Ord/go-image-resizer && cd go-image-resizer
+git clone https://github.com/Cameron-Ord/go-image-resizer && cd go-image-resizer && chmod +x build.sh
 git clone https://github.com/Cameron-Ord/go-image-resizer && cd go-image-resizer && chmod +x build.sh && ./build.sh
 ```
 ```bash
