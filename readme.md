@@ -1,5 +1,8 @@
 
 # Simple Script for Batch Processing JPG Images into Various Sizes
+This program processes JPG images located in the `/to_process/` folder. The `run.sh` script creates both `processed` and `to_process` directories just in case, but as long as you run build.sh first you'll pretty much be good to go. Ensure that images are present in `/to_process/` for effective processing.
+
+If you don't have go, then go get it :I.
 
 ## REQUIREMENTS
 1. **Linux**
@@ -36,4 +39,4 @@ unzip jpg_resizer.zip
    ./run.sh
    ```
 
-The script processes JPG images located in the `/to_process/` folder. The `run.sh` script creates both `processed` and `to_process` directories. Ensure that images are present in `/to_process/` for effective processing.
+
