@@ -80,7 +80,8 @@ func main() {
 			all_resized := []image.Image{RIC.small, RIC.medium, RIC.big, RIC.maximum}
 			for r := 0; r < len(all_resized); r++ {
 				resized := all_resized[r]
-				save_image(resized, output_dir, new_img_name, resized.Bounds().String())
+				size_str := bounds_to_string(resized.Bounds())
+				save_image(resized, output_dir, new_img_name, size_str)
 			}
 		}
 	}
@@ -98,4 +99,8 @@ func save_image(img image.Image, output_dir, file_name, size_suffix string) {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func bounds_to_string(bounds image.Rectangle) string {
+	return fmt.Sprintf("%dx%d", bounds.Dx(), bounds.Dy())
 }
