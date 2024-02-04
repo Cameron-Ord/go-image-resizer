@@ -13,7 +13,7 @@ go get -u github.com/nfnt/resize
 go mod tidy
 
 echo "building.."
-go build main.go
+go build main
 
 echo "chmod run.sh/clean.sh"
 chmod +x run.sh

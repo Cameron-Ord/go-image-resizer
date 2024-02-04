@@ -16,10 +16,10 @@ Either git clone it, or download the zip (code -> Download zip)
 git clone https://github.com/Cameron-Ord/go-image-resizer && cd go-image-resizer
 ```
 ```bash
-git clone https://github.com/Cameron-Ord/go-image-resizer && cd go-image-resizer && chmod +x build.sh
+git clone https://github.com/Cameron-Ord/go-image-resizer && cd go-image-resizer/main && chmod +x build.sh
 ```
 ```bash
-git clone https://github.com/Cameron-Ord/go-image-resizer && cd go-image-resizer && chmod +x build.sh && ./build.sh
+git clone https://github.com/Cameron-Ord/go-image-resizer && cd go-image-resizer/main && chmod +x build.sh && ./build.sh
 ```
 
 ```bash
