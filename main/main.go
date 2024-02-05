@@ -121,7 +121,7 @@ func do_jpg(file fs.DirEntry, input_dir string) error {
 	return nil
 }
 
-func create_resized(img image.Image, x, y int) image.Image {
+func create_resized(img image.Image, y, x int) image.Image {
 	resized := resize.Resize(uint(x), uint(y), img, resize.Lanczos3)
 	return resized
 }
