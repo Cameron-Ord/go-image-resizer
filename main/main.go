@@ -151,7 +151,8 @@ func save_image(img image.Image, output_dir, file_name, size_suffix string) erro
 	var err error
 	var output_path string
 	prefix_substr, ext_substr := extract_file_extension(file_name)
-	if len(prefix_substr) == 0 || len(ext_substr) == 0 {
+	concat := fmt.Sprintf("%s%s", prefix_substr, ext_substr)
+	if len(prefix_substr) == 0 && len(ext_substr) == 0 || len(concat) < len(file_name) {
 		return errors.New("No existing prefix or file extension")
 	}
 
