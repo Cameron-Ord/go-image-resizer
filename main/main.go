@@ -25,23 +25,14 @@ func main() {
 	}
 
 	for _, file := range files {
-		if strings.HasSuffix(file.Name(), ".jpg") || strings.HasSuffix(file.Name(), ".jpeg") {
-			err = do_jpg(file, input_dir)
-			if err != nil {
-				fmt.Printf("Image processing failed: %s\n", err)
-			}
-		}
-
-		if strings.HasSuffix(file.Name(), ".png") {
-			err = do_png(file, input_dir)
-			if err != nil {
-				fmt.Printf("Image processing failed: %s\n", err)
-			}
+		err = process(file, input_dir)
+		if err != nil {
+			fmt.Println("An error has occured: ", err)
 		}
 	}
 }
 
-func do_png(file fs.DirEntry, input_dir string) error {
+func process(file fs.DirEntry, input_dir string) error {
 	output_dir := "processed"
 	var err error
 	var input_path string = filepath.Join(input_dir, file.Name())
@@ -58,49 +49,22 @@ func do_png(file fs.DirEntry, input_dir string) error {
 
 	var img image.Image
 
-	img, err = png.Decode(img_file)
-	if err != nil {
-		return err
-	}
-
-	var bounds image.Rectangle = img.Bounds()
-	var reduction_amount int = 2
-	for i := 0; i < 4; i++ {
-		bounds_y := bounds.Dy() / reduction_amount
-		bounds_x := bounds.Dx() / reduction_amount
-		var resized image.Image = create_resized(img, bounds_y, bounds_x)
-		size_str := bounds_to_string(resized.Bounds())
-		err := save_image(resized, output_dir, file.Name(), size_str)
+	if strings.HasSuffix(file.Name(), "png") {
+		img, err = png.Decode(img_file)
 		if err != nil {
 			return err
 		}
-		reduction_amount += 2
 	}
 
-	fmt.Println("--------------------")
-	return nil
-}
-
-func do_jpg(file fs.DirEntry, input_dir string) error {
-	output_dir := "processed"
-	var err error
-	var input_path string = filepath.Join(input_dir, file.Name())
-	var img_file *os.File
-
-	fmt.Println()
-	fmt.Println("INPUT ->", input_path)
-	fmt.Println("--------------------")
-
-	img_file, err = os.Open(input_path)
-	if err != nil {
-		return err
+	if strings.HasSuffix(file.Name(), "jpg") || strings.HasSuffix(file.Name(), "jpeg") {
+		img, err = jpeg.Decode(img_file)
+		if err != nil {
+			return err
+		}
 	}
 
-	var img image.Image
-
-	img, err = jpeg.Decode(img_file)
-	if err != nil {
-		return err
+	if img == nil {
+		return errors.New("Img is nil")
 	}
 
 	var bounds image.Rectangle = img.Bounds()
@@ -126,37 +90,18 @@ func create_resized(img image.Image, y, x int) image.Image {
 	return resized
 }
 
-func extract_file_extension(filename string) (string, string) {
-	var prefix_substr string = ""
-	var extension_string string = ""
-	for i := 0; i < len(filename); i++ {
-		char := filename[i]
-		if char != '.' {
-			prefix_substr += string(char)
-		}
-
-		if char == '.' {
-			for ci := i; ci < len(filename); ci++ {
-				if ci >= 0 && ci < len(filename) {
-					extension_string += string(filename[ci])
-				}
-			}
-			return prefix_substr, extension_string
-		}
-	}
-	return "", ""
-}
-
 func save_image(img image.Image, output_dir, file_name, size_suffix string) error {
 	var err error
 	var output_path string
-	prefix_substr, ext_substr := extract_file_extension(file_name)
-	concat := fmt.Sprintf("%s%s", prefix_substr, ext_substr)
-	if len(prefix_substr) == 0 && len(ext_substr) == 0 || len(concat) < len(file_name) {
+
+	split_slice := strings.Split(file_name, ".")
+	split_slice[0] += "."
+	concat := fmt.Sprintf("%s%s", split_slice[0], split_slice[1])
+	if (len(split_slice[0]) == 0 || len(split_slice[1]) == 0) || len(concat) < len(file_name) {
 		return errors.New("No existing prefix or file extension")
 	}
 
-	output_path = filepath.Join(output_dir, fmt.Sprintf("%s_%s_%s", prefix_substr, size_suffix, ext_substr))
+	output_path = filepath.Join(output_dir, fmt.Sprintf("%s_%s_%s", split_slice[0], size_suffix, split_slice[1]))
 	output_file, err := os.Create(output_path)
 	if err != nil {
 		return err
