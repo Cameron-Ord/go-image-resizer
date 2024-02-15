@@ -101,7 +101,7 @@ func save_image(img image.Image, output_dir, file_name, size_suffix string) erro
 	split_slice := strings.Split(file_name, ".")
 
 	concat := fmt.Sprintf("%s%s", split_slice[0], split_slice[1])
-	if (len(split_slice[0]) == 0 || len(split_slice[1]) == 0) || len(concat) < len(file_name) {
+	if (len(split_slice[0]) == 0 || len(split_slice[1]) == 0) || len(concat) < len(file_name)-1 {
 		return errors.New("No existing prefix or file extension")
 	}
 
