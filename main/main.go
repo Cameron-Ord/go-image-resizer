@@ -90,18 +90,22 @@ func create_resized(img image.Image, y, x int) image.Image {
 	return resized
 }
 
+func combine(s string) string {
+	return "." + s
+}
+
 func save_image(img image.Image, output_dir, file_name, size_suffix string) error {
 	var err error
 	var output_path string
 
 	split_slice := strings.Split(file_name, ".")
-	split_slice[0] += "."
+
 	concat := fmt.Sprintf("%s%s", split_slice[0], split_slice[1])
 	if (len(split_slice[0]) == 0 || len(split_slice[1]) == 0) || len(concat) < len(file_name) {
 		return errors.New("No existing prefix or file extension")
 	}
 
-	output_path = filepath.Join(output_dir, fmt.Sprintf("%s_%s_%s", split_slice[0], size_suffix, split_slice[1]))
+	output_path = filepath.Join(output_dir, fmt.Sprintf("%s_%s_%s", split_slice[0], size_suffix, combine(split_slice[1])))
 	output_file, err := os.Create(output_path)
 	if err != nil {
 		return err
